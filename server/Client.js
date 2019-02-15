@@ -28,7 +28,7 @@ module.exports = class Client extends EventEmitter {
 
 
   chat(msg) {
-    allclientssend(`{"type": "chat", "message": "${this.user.nick}: ${msg}"}`)
+    this.allclientssend(`{"type": "chat", "message": "${this.user.nick}: ${msg}"}`)
   }
 
   setNick(nick) {
