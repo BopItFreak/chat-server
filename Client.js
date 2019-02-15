@@ -19,10 +19,12 @@ class Client {
         switch (msg.type) {
           case "servermsg": {
             console.log(msg.message);
+            $("#chatbox").append(`${msg.message}<br>`);
             break;
           }
           case "chat": {
             console.log(msg.message);
+            $("#chatbox").append(`${msg.message}<br>`);
             break;
           }
           case "id": {

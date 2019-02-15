@@ -20,7 +20,7 @@ const interval = setInterval(function ping() {
   wss.clients.forEach(function each(ws) {
     if (ws.isAlive === false) {
       return ws.terminate();
-      console.log("Terminated");
+      console.log("Terminated a dead client");
     }
     ws.isAlive = false;
     ws.ping(noop);
