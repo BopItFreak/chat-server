@@ -26,7 +26,7 @@ module.exports = class Client extends EventEmitter {
       handleMessage(msg,fixedthis);
     });
     this.ws.on("close", function () {
-      deleteClient(this.user.id);
+      deleteClient(fixedthis,fixedthis.user.id);
     });
   }
 
