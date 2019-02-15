@@ -30,7 +30,6 @@ module.exports = class Client extends EventEmitter {
     });
     this.ws.on("close", function () {
       deleteClient(fixedthis,fixedthis.user.id);
-      console.log("a");
     });
     this.ws.isAlive = true;
     this.ws.on('pong', heartbeat);
@@ -56,6 +55,7 @@ module.exports = class Client extends EventEmitter {
   }
   allclientssend(msg) {
     for (let cl of clients) {
+      if (cl.ws.readyState !== WebSocket.OPEN) continue;
       cl.ws.send(msg);
     }
   }

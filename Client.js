@@ -42,18 +42,18 @@ class Client {
           }, 30000 + 1000);
       }
 
-    this.ws.onclose = (code) => {
+    this.ws.onclose = function (code) {
       console.warn(`ONCLOSE:`, code)
     }
 
-    this.ws.onerror = error => {
+    this.ws.onerror = function (error) {
       console.error(`WS ERR`,error);
     }
-    this.ws.onopen, heartbeat);
-    this.ws.onping, heartbeat);
+    this.ws.onopen, heartbeat;
+    this.ws.onping, heartbeat;
     this.ws.onclose, function clear() {
       clearTimeout(this.ws.pingTimeout);
-    });
+    };
   }
 
 
