@@ -35,6 +35,12 @@ class Client {
           }
         }
       }
+      function heartbeat() {
+          clearTimeout(this.ws.pingTimeout);
+          this.ws.pingTimeout = setTimeout(() => {
+            this.ws.terminate();
+          }, 30000 + 1000);
+      }
 
     this.ws.onclose = (code) => {
       console.warn(`ONCLOSE:`, code)
@@ -43,7 +49,11 @@ class Client {
     this.ws.onerror = error => {
       console.error(`WS ERR`,error);
     }
-
+    this.ws.onopen, heartbeat);
+    this.ws.onping, heartbeat);
+    this.ws.onclose, function clear() {
+      clearTimeout(this.ws.pingTimeout);
+    });
   }
 
 

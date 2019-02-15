@@ -22,12 +22,18 @@ module.exports = class Client extends EventEmitter {
   //initevents
   initevents() {
     let fixedthis = this;
+    function heartbeat() {
+        this.isAlive = true;
+    }
     this.ws.on("message", function (msg) {
       handleMessage(msg,fixedthis);
     });
     this.ws.on("close", function () {
       deleteClient(fixedthis,fixedthis.user.id);
+      console.log("a");
     });
+    this.ws.isAlive = true;
+    this.ws.on('pong', heartbeat);
   }
 
 
