@@ -1,5 +1,5 @@
 console.log("Main script started.");
-let ws = new WebSocket("ws://localhost:1919");
+let ws = new WebSocket("ws://104.237.150.24:1919");
 ws.onopen = () => {
 console.log("CONNEC!");
 }

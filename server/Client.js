@@ -28,7 +28,7 @@ module.exports = class Client extends EventEmitter {
 
 
   chat(msg) {
-    this.ws.send(`{"type": "chat", "message": "${this.user.nick}: ${msg}"}`);
+    allclientssend(`{"type": "chat", "message": "${this.user.nick}: ${msg}"}`)
   }
 
   setNick(nick) {
@@ -44,7 +44,11 @@ module.exports = class Client extends EventEmitter {
   servermsg(msg) {
     this.ws.send(`{"type": "servermsg", "message": "Server: ${msg}"}`);
   }
-
+  allclientssend(msg) {
+    for (let cl of clients) {
+      cl.ws.send(msg);
+    }
+  }
   welcome() {
     this.setId(this.user.id);
     this.setNick(this.user.nick);
