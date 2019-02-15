@@ -1,6 +1,7 @@
 const EventEmitter = require("events").EventEmitter;
 const WebSocket = require("ws");
 const handleMessage = require("./messageHandle.js");
+const deleteClient = require("./Clientdeleter.js");
 
 module.exports = class Client extends EventEmitter {
   constructor(ws,user) {
@@ -23,6 +24,9 @@ module.exports = class Client extends EventEmitter {
     let fixedthis = this;
     this.ws.on("message", function (msg) {
       handleMessage(msg,fixedthis);
+    });
+    this.ws.on("close", function () {
+      deleteClient(this.user.id);
     });
   }
 
