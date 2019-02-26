@@ -4,8 +4,8 @@ const handleMessage = require("./messageHandle.js");
 const deleteClient = require("./Clientdeleter.js");
 
 module.exports = class Client extends EventEmitter {
-  constructor(ws,user) {
-    super(ws,user);
+  constructor(ws, user) {
+    super(ws, user);
     if (!ws) ws = {};
     if (!user) user = {
       nick: "Anonymous",
@@ -22,17 +22,32 @@ module.exports = class Client extends EventEmitter {
   //initevents
   initevents() {
     let fixedthis = this;
+
     function heartbeat() {
-        this.isAlive = true;
+      this.isAlive = true;
     }
-    this.ws.on("message", function (msg) {
-      handleMessage(msg,fixedthis);
+    this.ws.on("message", function(msg) {
+      handleMessage(msg, fixedthis);
     });
-    this.ws.on("close", function () {
-      deleteClient(fixedthis,fixedthis.user.id);
+    this.ws.on("close", function() {
+      deleteClient(fixedthis, fixedthis.user.id);
     });
     this.ws.isAlive = true;
     this.ws.on('pong', heartbeat);
+
+    function noop() {}
+
+    //handle broken connections
+    const interval = setInterval(function ping() {
+      clients.forEach(function each(cl) {
+        if (cl.ws.isAlive === false) {
+          return cl.ws.terminate();
+          console.log("Terminated a dead client, ID: " + cl.user.id);
+        }
+        cl.ws.isAlive = false;
+        cl.ws.ping(noop);
+      });
+    }, 30000);
   }
 
 

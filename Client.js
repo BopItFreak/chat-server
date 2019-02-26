@@ -1,6 +1,5 @@
 class Client {
   constructor(ws,user) {
-//    super(ws,user);
     if (!ws) ws = {};
     if (!user) user = {
       nick: null,
@@ -60,7 +59,7 @@ class Client {
 
 
   chat(msg) {
-    this.ws.send(`{"type": "chat", "message": "${msg}"}`);
+    this.ws.send(`{"type": "chat", "message": "${msg.split('"').join('\\\\\\"')}"}`);
   }
 
   setNick(nick) {
